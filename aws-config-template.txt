@@ -1,0 +1,16 @@
+[default]
+sso_session = home
+sso_account_id = 605134429250
+sso_role_name = AdministratorAccess
+region = ap-southeast-2
+
+[profile AdministratorAccess-605134429250]
+sso_session = home
+sso_account_id = 605134429250
+sso_role_name = AdministratorAccess
+region = ap-southeast-2
+
+[sso-session home]
+sso_start_url = https://d-9767b5ef21.awsapps.com/start
+sso_region = ap-southeast-2
+sso_registration_scopes = sso:account:access
