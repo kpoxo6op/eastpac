@@ -1,6 +1,12 @@
 # MWAA
 
+Create AWS profile
+
 Login to AWS
+
+```bash
+aws sso login
+```
 
 Create the state resources:
 
