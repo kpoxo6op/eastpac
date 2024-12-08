@@ -1,6 +1,5 @@
 from airflow import DAG
-from airflow.operators.python import PythonOperator
-from airflow.models import Variable
+from airflow.operators.bash import BashOperator
 from datetime import datetime, timedelta
 
 default_args = {
@@ -16,18 +15,13 @@ default_args = {
 dag = DAG(
     'variables_example',
     default_args=default_args,
-    description='Example DAG using Variables from AWS Secrets Manager',
+    description='Test DAG with Bash',
     schedule_interval=timedelta(days=1),
     catchup=False
 )
 
-def use_variables():
-    # Get a single variable from AWS Secrets Manager
-    test_var = Variable.get("test_var")
-    print(f"Successfully read variable: {test_var}")
-
-use_variables_task = PythonOperator(
-    task_id='use_variables',
-    python_callable=use_variables,
+test_task = BashOperator(
+    task_id='test_task',
+    bash_command='echo "Testing task execution" && date',
     dag=dag
 ) 

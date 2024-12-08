@@ -115,10 +115,6 @@ resource "aws_vpc_endpoint" "s3" {
   service_name = "com.amazonaws.ap-southeast-2.s3"
   vpc_endpoint_type = "Gateway"
   route_table_ids = [aws_route_table.private.id]
-
-  tags = {
-    Name = "mwaa-s3-endpoint"
-  }
 }
 
 resource "aws_vpc_endpoint" "ecr_api" {
@@ -142,15 +138,6 @@ resource "aws_vpc_endpoint" "ecr_dkr" {
 resource "aws_vpc_endpoint" "logs" {
   vpc_id             = aws_vpc.mwaa_vpc.id
   service_name       = "com.amazonaws.ap-southeast-2.logs"
-  vpc_endpoint_type  = "Interface"
-  subnet_ids         = [aws_subnet.mwaa_subnet_private1.id, aws_subnet.mwaa_subnet_private2.id]
-  security_group_ids = [aws_security_group.mwaa_sg.id]
-  private_dns_enabled = true
-}
-
-resource "aws_vpc_endpoint" "monitoring" {
-  vpc_id             = aws_vpc.mwaa_vpc.id
-  service_name       = "com.amazonaws.ap-southeast-2.monitoring"
   vpc_endpoint_type  = "Interface"
   subnet_ids         = [aws_subnet.mwaa_subnet_private1.id, aws_subnet.mwaa_subnet_private2.id]
   security_group_ids = [aws_security_group.mwaa_sg.id]
@@ -187,7 +174,7 @@ resource "aws_s3_object" "requirements" {
 }
 
 resource "aws_mwaa_environment" "mwaa_environment" {
-  name = "minimal-mwaa-environment"
+  name = "minimal-mwaa-env-v2"
 
   airflow_configuration_options = {
     "core.default_task_retries" = 1
@@ -245,6 +232,7 @@ resource "aws_mwaa_environment" "mwaa_environment" {
     aws_vpc_endpoint.ecr_api,
     aws_vpc_endpoint.ecr_dkr,
     aws_vpc_endpoint.logs,
-    aws_vpc_endpoint.monitoring
+    aws_security_group.mwaa_sg,
+    aws_iam_role_policy.mwaa_policy
   ]
 } 
