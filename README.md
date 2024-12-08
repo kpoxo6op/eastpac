@@ -1,4 +1,21 @@
-# MWAA DAGs Upload
+# MWAA
+
+Login to AWS
+
+Create the state resources:
+
+```bash
+cd bootstrap
+terraform init
+terraform apply
+```
+
+Create MWAA
+
+```bash
+cd ..
+terraform init
+```
 
 Upload DAGs to your MWAA S3 bucket:
 
